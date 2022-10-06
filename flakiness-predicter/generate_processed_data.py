@@ -44,6 +44,11 @@ def collect_flakeFlagger_files(clone_project,ouptut):
     churn_columns = True
     ExecutionTime_columns = True
     LibrariesUsages_columns = True
+    smell_columns_lst = []
+    basicDemographics_columns_lst = []
+    churn_columns_lst = []
+    ExecutionTime_columns_lst = []
+    LibrariesUsages_columns_lst = []
     
     print ("-- >  Start Collecting all csv files from each project to form processed_data.csv ")
     for root, dirs, files in os.walk(clone_project):
@@ -88,7 +93,9 @@ def collect_flakeFlagger_files(clone_project,ouptut):
                     if (len(open(file_dir).readlines()) > 0):
                         LibrariesUsages_columns_lst = (pd.read_csv(file_dir)).columns
                         LibrariesUsages_columns = False
-    
+    if not smellsPretty:
+        print("Error: No processed data found. Please check the project directory path and make sure you have run test-feature-collector before prediction.")
+
     # fix if there is an empty csv file  
     fix_empty_csvFiles(smellsPretty,smell_columns_lst)
     fix_empty_csvFiles(basicDemographics,basicDemographics_columns_lst)
